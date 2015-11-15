@@ -13,8 +13,12 @@ public class KeyboardFile {
     public int keyboardHeight = 300;
 
     public String backgroundColor = "#aaaaaa";
-    public String defaultColor = "#cccccc";
-    public String defaultPressedColor = "#aaaaaa";
+
+    public String defaultColor = "#ffffff";
+    public String defaultPressedColor = "#000000";
+    public String defaultFontColor = "#000000";
+    public String defaultPressedFontColor = "#ffffff";
+
 
     public Map<String, KeyData> keys;
 
@@ -31,10 +35,14 @@ public class KeyboardFile {
         public int height = 50;
         public String color;
         public String pressedColor;
+        public String fontColor;
+        public String pressedFontColor;
         public int fontSize = 15;
 
         // Converted fields
         public Color upColor;
         public Color downColor;
+        public Color upFontColor;
+        public Color downFontColor;
     }
 }

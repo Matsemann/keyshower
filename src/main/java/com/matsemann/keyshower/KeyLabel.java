@@ -1,21 +1,27 @@
 package com.matsemann.keyshower;
 
+import com.matsemann.keyshower.KeyboardFile.KeyData;
+
 import javax.swing.*;
 import java.awt.*;
 
 class KeyLabel extends JLabel {
 
-    private Color up;
-    private Color down;
+    private Color upColor;
+    private Color downColor;
+    private Color upFontColor;
+    private Color downFontColor;
 
-    public KeyLabel(KeyboardFile.KeyData data) {
-        this.up = data.upColor;
-        this.down = data.downColor;
+    public KeyLabel(KeyData data) {
+        this.upColor = data.upColor;
+        this.downColor = data.downColor;
+        this.upFontColor = data.upFontColor;
+        this.downFontColor = data.downFontColor;
         setText(data.text);
         setBounds(data.x, data.y, data.width, data.height);
         setFont(getFont().deriveFont((float) data.fontSize));
 
-        setBackground(up);
+        setBackground(upColor);
         setVerticalAlignment(CENTER);
         setHorizontalAlignment(CENTER);
     }
@@ -29,11 +35,13 @@ class KeyLabel extends JLabel {
     }
 
     public void down() {
-        setBackground(down);
+        setBackground(downColor);
+        setForeground(downFontColor);
     }
 
     public void up() {
-        setBackground(up);
+        setBackground(upColor);
+        setForeground(upFontColor);
     }
 
 

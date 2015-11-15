@@ -71,8 +71,18 @@ public class FileParser {
             key.pressedColor = kbf.defaultPressedColor;
         }
 
+        if (key.fontColor == null) {
+            key.fontColor = kbf.defaultFontColor;
+        }
+
+        if (key.pressedFontColor == null) {
+            key.pressedFontColor = kbf.defaultPressedFontColor;
+        }
+
         key.upColor = convertColor(key.color, settings.keyAlpha);
         key.downColor = convertColor(key.pressedColor, settings.keyAlpha);
+        key.upFontColor = convertColor(key.fontColor, settings.keyAlpha);
+        key.downFontColor = convertColor(key.pressedFontColor, settings.keyAlpha);
     }
 
     private static Color convertColor(String color, int alpha) {
