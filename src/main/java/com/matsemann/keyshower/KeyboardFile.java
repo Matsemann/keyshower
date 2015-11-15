@@ -18,6 +18,7 @@ public class KeyboardFile {
     public String defaultPressedColor = "#000000";
     public String defaultFontColor = "#000000";
     public String defaultPressedFontColor = "#ffffff";
+    public int defaultFontSize = 15;
 
 
     public Map<String, KeyData> keys;
@@ -37,7 +38,7 @@ public class KeyboardFile {
         public String pressedColor;
         public String fontColor;
         public String pressedFontColor;
-        public int fontSize = 15;
+        public int fontSize = -1;
 
         // Converted fields
         public Color upColor;

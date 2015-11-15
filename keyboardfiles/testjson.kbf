@@ -9,9 +9,10 @@
   // Colors used for keys, can also specify colors per key
   defaultColor: "#00ff00",
   defaultPressedColor: "#0000ff",
+  defaultFontSize: 10,
 
   keys: {
     SHIFT_L:    {text: "⇧", x: 70, y: 70, width: 50, height: 50}, // this one will use default colors
-    A:          {text: "A", x: 10, y: 70, width: 50, height: 50,},
+    A:          {text: "A", x: 10, y: 70, width: 50, height: 50, fontSize: 25},
   }
 }

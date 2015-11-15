@@ -79,6 +79,10 @@ public class FileParser {
             key.pressedFontColor = kbf.defaultPressedFontColor;
         }
 
+        if (key.fontSize == -1) {
+            key.fontSize = kbf.defaultFontSize;
+        }
+
         key.upColor = convertColor(key.color, settings.keyAlpha);
         key.downColor = convertColor(key.pressedColor, settings.keyAlpha);
         key.upFontColor = convertColor(key.fontColor, settings.keyAlpha);
