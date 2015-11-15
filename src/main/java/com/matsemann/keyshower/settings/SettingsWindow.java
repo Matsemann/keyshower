@@ -7,6 +7,10 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
 import javax.swing.*;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsWindow extends JFrame {
 
@@ -24,6 +28,7 @@ public class SettingsWindow extends JFrame {
         addBackgroundSlider();
         addKeySlider();
         addStartButton();
+        addFileDropdown();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -76,6 +81,18 @@ public class SettingsWindow extends JFrame {
         add(show);
     }
 
+    private void addFileDropdown() {
+        List<String> fileNames = getKeyboardFiles();
+        JComboBox<String> fileDropdown = new JComboBox<>();
+        fileNames.forEach(fileDropdown::addItem);
+
+        fileDropdown.addActionListener(e -> settings.kbFile = "keyboardfiles/" + fileDropdown.getSelectedItem());
+
+        fileDropdown.setSelectedIndex(0);
+        fileDropdown.setBounds(10, 170, 200, 30);
+        add(fileDropdown);
+    }
+
 
     private void start() {
         try {
@@ -98,5 +115,22 @@ public class SettingsWindow extends JFrame {
 
     private void err(String msg) {
         JOptionPane.showMessageDialog(this, "Something went wrong, sorry.\nError message: \n" + msg);
+    }
+
+    public List<String> getKeyboardFiles() {
+        List<String> fileNames = new ArrayList<>();
+
+        File[] files = Paths.get("keyboardfiles/").toFile().listFiles((f, n) -> n.endsWith(".kbf"));
+
+        if (files == null) {
+            fileNames.add("NO FILES FOUND");
+            return fileNames;
+        }
+
+        for (File file : files) {
+            fileNames.add(file.getName());
+        }
+
+        return fileNames;
     }
 }
