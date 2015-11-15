@@ -5,22 +5,23 @@ import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matsemann.keyshower.KeyboardFile.KeyData;
+import com.matsemann.keyshower.settings.Settings;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class FileParser {
 
-    public static KeyboardFile parse(File file, Settings settings) {
+    public static KeyboardFile parse(Settings settings) {
         KeyboardFile kbf;
 
         try {
-            String json = new String(Files.readAllBytes(file.toPath()));
+            String json = new String(Files.readAllBytes(Paths.get(settings.kbFile)));
             json = json.replaceAll(",\\s*}", "}"); // allow trailing commas
 
             ObjectMapper om = new ObjectMapper();

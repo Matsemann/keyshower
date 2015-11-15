@@ -1,6 +1,7 @@
 package com.matsemann.keyshower;
 
 import com.matsemann.keyshower.KeyboardFile.KeyData;
+import com.matsemann.keyshower.settings.Settings;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
@@ -15,7 +16,7 @@ public class KeyShowerFrame extends JFrame implements NativeKeyListener {
     private Map<Integer, KeyLabel> keys = new HashMap<>();
 
     public KeyShowerFrame(KeyboardFile kbf, Settings settings) {
-        super("Matsemann's SuperDuper KeyShower");
+        super("Keyshower by Matsemann");
 
         for (Map.Entry<Integer, KeyData> key : kbf.intToKeyData.entrySet()) {
             keys.put(key.getKey(), new KeyLabel(key.getValue()));
@@ -37,9 +38,10 @@ public class KeyShowerFrame extends JFrame implements NativeKeyListener {
             getContentPane().setBackground(kbf.bgColor);
         }
 
-        setVisible(true);
+        setResizable(false);
         setSize(kbf.keyboardWidth, kbf.keyboardHeight);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
 
 
         MouseDragger mouseDragger = new MouseDragger();

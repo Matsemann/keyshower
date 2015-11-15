@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.matsemann.keyshower.KeyShower</mainClass>
+                            <mainClass>com.matsemann.keyshower.KeyShowerMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
