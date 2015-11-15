@@ -1,76 +1,66 @@
 package com.matsemann.keyshower;
 
+import com.matsemann.keyshower.KeyboardFile.KeyData;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.jnativehook.keyboard.NativeKeyEvent.*;
-
 public class KeyShowerFrame extends JFrame implements NativeKeyListener {
 
-    private Map<Integer, Button> buttons = new HashMap<>();
+    private Map<Integer, KeyLabel> keys = new HashMap<>();
 
-    public static final Color WASD_COLOR = new Color(200, 200, 200);
-    public static final Color OTHER_COLOR = new Color(255, 255, 255);
-    public static final Color PRESS_COLOR = new Color(72, 72, 72);
-
-    public KeyShowerFrame() {
+    public KeyShowerFrame(KeyboardFile kbf, Settings settings) {
         super("Matsemann's SuperDuper KeyShower");
 
-        buttons.put(VC_Q, new Button("Q", 10, 10, 50, 50, OTHER_COLOR));
-        buttons.put(VC_W, new Button("W", 70, 10, 50, 50, WASD_COLOR));
-        buttons.put(VC_E, new Button("E", 130, 10, 50, 50, OTHER_COLOR));
-
-        buttons.put(VC_A, new Button("A", 10, 70, 50, 50, WASD_COLOR));
-        buttons.put(VC_S, new Button("S", 70, 70, 50, 50, WASD_COLOR));
-        buttons.put(VC_D, new Button("D", 130, 70, 50, 50, WASD_COLOR));
-
-        buttons.put(VC_SHIFT_L, new Button("⇧", 10, 130, 50, 50, OTHER_COLOR));
-        buttons.put(VC_SPACE, new Button("_", 70, 130, 50, 50, OTHER_COLOR));
-        buttons.put(VC_V, new Button("V", 130, 130, 50, 50, OTHER_COLOR));
-
+        for (Map.Entry<Integer, KeyData> key : kbf.intToKeyData.entrySet()) {
+            keys.put(key.getKey(), new KeyLabel(key.getValue()));
+        }
 
 
         setLayout(null);
-        buttons.values().forEach(this::add);
+        keys.values().forEach(this::add);
 
-//        setUndecorated(true);
+        if (settings.hideFrame) {
+            setUndecorated(true);
+
+            if (settings.bgAlpha < 255) {
+                setBackground(kbf.bgColor);
+            } else {
+                getContentPane().setBackground(kbf.bgColor);
+            }
+        } else {
+            getContentPane().setBackground(kbf.bgColor);
+        }
+
+        setVisible(true);
+        setSize(kbf.keyboardWidth, kbf.keyboardHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().setBackground(Color.BLUE);
-        setSize(300, 300);
-        setVisible(true);
 
-
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                setBounds(e.getXOnScreen(), e.getYOnScreen(), getWidth(), getHeight());
-            }
-        });
+        MouseDragger mouseDragger = new MouseDragger();
+        addMouseListener(mouseDragger);
+        addMouseMotionListener(mouseDragger);
     }
-
 
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
-        Button button = buttons.get(e.getKeyCode());
-        if (button != null) {
-            button.down();
+        KeyLabel keyLabel = keys.get(e.getKeyCode());
+        if (keyLabel != null) {
+            keyLabel.down();
         }
     }
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent e) {
-        Button button = buttons.get(e.getKeyCode());
-        if (button != null) {
-            button.up();
+        KeyLabel keyLabel = keys.get(e.getKeyCode());
+        if (keyLabel != null) {
+            keyLabel.up();
         }
     }
 
@@ -80,27 +70,18 @@ public class KeyShowerFrame extends JFrame implements NativeKeyListener {
     }
 
 
-    private static class Button extends JLabel {
+    private class MouseDragger extends MouseAdapter {
+        int x, y;
 
-        private Color up;
-
-        public Button(String name, int x, int y, int w, int h, Color up) {
-            this.up = up;
-            setText(name);
-            setBounds(x, y, w, h);
-            setOpaque(true);
-            setBackground(up);
-            setVerticalAlignment(CENTER);
-            setHorizontalAlignment(CENTER);
+        @Override
+        public void mousePressed(MouseEvent e) {
+            x = e.getX();
+            y = e.getY();
         }
 
-        public void down() {
-            setBackground(PRESS_COLOR);
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            setBounds(e.getXOnScreen() - x, e.getYOnScreen() - y, getWidth(), getHeight());
         }
-
-        public void up() {
-            setBackground(up);
-        }
-
     }
 }

@@ -1,0 +1,17 @@
+{
+  version: "v1",
+  keyboardWidth: 300,
+  keyboardHeight: 300,
+
+  // Colors on format #rrggbb
+  backgroundColor: "#ffffff",
+
+  // Colors used for keys, can also specify colors per key
+  defaultColor: "#00ff00",
+  defaultPressedColor: "#0000ff",
+
+  keys: {
+    SHIFT_L:    {text: "⇧", x: 70, y: 70, width: 50, height: 50}, // this one will use default colors
+    A:          {text: "A", x: 10, y: 70, width: 50, height: 50,},
+  }
+}

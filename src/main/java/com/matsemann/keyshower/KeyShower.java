@@ -3,18 +3,23 @@ package com.matsemann.keyshower;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
+import java.nio.file.Paths;
+
 public class KeyShower {
 
     public static void main(String[] args) {
+        Settings settings = new Settings();
+        KeyboardFile kbf = FileParser.parse(Paths.get("testjson.kbf").toFile(), settings);
+
         try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException e) {
-            System.out.println("Couldn't connect to keyboard events");
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException("Couldn't connect to keyboard events." + e.getMessage());
         }
 
-        KeyShowerFrame keyShowerFrame = new KeyShowerFrame();
+        KeyShowerFrame keyShowerFrame = new KeyShowerFrame(kbf, settings);
+
         GlobalScreen.addNativeKeyListener(keyShowerFrame);
+
     }
 }
